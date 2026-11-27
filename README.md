@@ -2,45 +2,42 @@
 
 **Turning data into intelligence.**
 
-InsightX is an educational analytics prototype that brings together dataset profiling, predictive modeling, time-series trend estimation and customer segmentation behind a simple API.
+InsightX is an educational analytics prototype with an independent React frontend and a FastAPI analytics service. The site and API are designed to be hosted outside the original website builder.
 
 ## Project
 
-- **Website:** https://insightx-analytics.higgsfield.app
 - **Repository:** https://github.com/mohammadsamad16/InsightX
+- **Frontend:** Vite + React 19
 - **Backend:** FastAPI + Pandas + scikit-learn
-- **API docs:** Available at `/docs` when the API is running
+- **Hosting configuration:** Render Blueprint at the repository root (render.yaml)
 
-## Current capabilities
+## Frontend
+
+The frontend source is in frontend/. It contains the InsightX landing page, responsive design, scroll-controlled hero, local CSV preview and optional API integration.
+
+Local run:
+
+~~~bash
+cd frontend
+npm install
+npm run dev
+~~~
+
+The Render build obtains the media bundle, extracts it into frontend/public, then runs npm ci and npm run build.
+
+## Backend API
 
 | Capability | Endpoint | Method |
 | --- | --- | --- |
-| Dataset profile and data-quality checks | `/api/v1/profile` | POST |
-| Churn classification baseline | `/api/v1/churn` | POST |
-| Linear-trend forecasting baseline | `/api/v1/forecast` | POST |
-| K-Means numeric segmentation | `/api/v1/segment` | POST |
-| Health check | `/health` | GET |
+| Dataset profile and data-quality checks | /api/v1/profile | POST |
+| Churn classification baseline | /api/v1/churn | POST |
+| Linear-trend forecasting baseline | /api/v1/forecast | POST |
+| K-Means numeric segmentation | /api/v1/segment | POST |
+| Health check | /health | GET |
 
-## Repository structure
+Local API run (Python 3.11+):
 
-```text
-InsightX/
-├── backend/
-│   ├── app/
-│   │   └── main.py
-│   ├── Dockerfile
-│   ├── README.md
-│   ├── render.yaml
-│   └── requirements.txt
-├── .gitignore
-└── README.md
-```
-
-## Run the API locally
-
-Python 3.11+ is recommended.
-
-```bash
+~~~bash
 cd backend
 python -m venv .venv
 # Windows:
@@ -49,15 +46,21 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload
-```
+~~~
 
 Open http://127.0.0.1:8000/docs for interactive API documentation.
 
-## Deployment
+## Deploy the frontend and API together on Render
 
-A Render Blueprint is included at `backend/render.yaml`. It is configured for the Free plan. Review the plan and displayed cost in Render before confirming deployment; do not continue if a paid plan or charge is shown.
+1. Sign in to Render and choose **New → Blueprint**.
+2. Connect GitHub and select mohammadsamad16/InsightX.
+3. Render should detect the root render.yaml. It defines:
+   - insightx-analytics-web: static Vite site (no compute plan; static sites are free)
+   - insightx-analytics-api: Docker web service on the Free compute plan
+4. Before deploying, check that the API plan is **Free** and the estimated recurring compute cost is **$0**. Do not upgrade either service.
+5. Deploy the Blueprint. The frontend is configured to call https://insightx-analytics-api.onrender.com.
 
-See [backend/README.md](backend/README.md) for endpoint examples, limits and deployment instructions.
+Render Free web services can sleep after inactivity and have monthly usage limits. Bandwidth overages may incur charges, so monitor usage and configure spending controls in your Render account before enabling any billable usage.
 
 ## Important limitations
 
