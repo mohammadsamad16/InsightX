@@ -3,7 +3,7 @@ services:
     name: insightx-analytics-web
     runtime: static
     rootDir: frontend
-    buildCommand: curl -fsSL 'https://d2ol7oe51mr4n9.cloudfront.net/user_3JUUTOGm7ErFIDs70CqGzr2G9Ye/1d0a418f-27a4-4327-a76f-835990b9530d.zip' -o /tmp/insightx-frontend-assets.zip && unzip -oq /tmp/insightx-frontend-assets.zip -d . && npm ci --no-audit --no-fund && npm run build
+    buildCommand: npm run assets:download && npm ci --no-audit --no-fund && npm run build
     staticPublishPath: dist
     routes:
       - type: rewrite
