@@ -80,9 +80,9 @@ To select segmentation columns, pass a comma-separated `features` query paramete
 
 1. Sign in to Render and choose **New → Blueprint**.
 2. Connect GitHub and select `mohammadsamad16/InsightX`.
-3. Render should detect this repository's `backend/render.yaml`.
+3. Render should detect the repository-root render.yaml.
 4. Before creating the service, confirm the plan displayed is **Free** and the estimated recurring cost is **$0**.
 5. Deploy the blueprint. The health check path is `/health`.
-6. After deployment, copy the service URL and use it as the API base URL in the InsightX website.
+6. After deployment, the frontend is configured to call https://insightx-analytics-api.onrender.com. If Render assigns a different service URL, update the API base URL in the website.
 
 Do not proceed if Render displays a paid plan or a charge. Free instances may sleep when inactive and can have cold starts or resource limits. Verify the current terms in Render before deploying.
